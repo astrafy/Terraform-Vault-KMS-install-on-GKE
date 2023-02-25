@@ -1,92 +1,48 @@
-# Terraform Vault KMS install on GKE
+<!-- BEGIN_TF_DOCS -->
+## Requirements
 
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.2.9 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | >=4.37.0,<5.0.0 |
+| <a name="requirement_helm"></a> [helm](#requirement\_helm) | >=2.6.0 |
 
+## Providers
 
-## Getting started
+| Name | Version |
+|------|---------|
+| <a name="provider_google"></a> [google](#provider\_google) | >=4.37.0,<5.0.0 |
+| <a name="provider_helm"></a> [helm](#provider\_helm) | >=2.6.0 |
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Modules
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+No modules.
 
-## Add your files
+## Resources
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+| Name | Type |
+|------|------|
+| [google_kms_crypto_key.unseal](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/kms_crypto_key) | resource |
+| [google_kms_crypto_key_iam_member.auto_unseal](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/kms_crypto_key_iam_member) | resource |
+| [google_kms_key_ring.vault](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/kms_key_ring) | resource |
+| [google_project_iam_member.vault_sa_key_admin](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
+| [helm_release.hashicorp_vault](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/a8042/dataops/terraform-astrafy-vault-kms-install-on-gke.git
-git branch -M main
-git push -uf origin main
-```
+## Inputs
 
-## Integrate with your tools
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_helm_values_file"></a> [helm\_values\_file](#input\_helm\_values\_file) | Helm values.yaml file location | `string` | n/a | yes |
+| <a name="input_key_ring_name"></a> [key\_ring\_name](#input\_key\_ring\_name) | Name of the Keyring to create. | `string` | n/a | yes |
+| <a name="input_kms_location"></a> [kms\_location](#input\_kms\_location) | Location of the KMS key ring. | `string` | n/a | yes |
+| <a name="input_project_id_gke"></a> [project\_id\_gke](#input\_project\_id\_gke) | Project ID for GKE project | `string` | n/a | yes |
+| <a name="input_unseal_key_name"></a> [unseal\_key\_name](#input\_unseal\_key\_name) | Name of the Vault unseal key | `string` | n/a | yes |
+| <a name="input_unseal_key_rotation_period"></a> [unseal\_key\_rotation\_period](#input\_unseal\_key\_rotation\_period) | Rotation period of the Vault unseal key. Defaults to 6 months | `string` | n/a | yes |
+| <a name="input_vault_config"></a> [vault\_config](#input\_vault\_config) | Vault configuration | <pre>object({<br>    chart_version = string<br>    release_name  = string<br>    vault_ksa     = string<br>    image = object({<br>      repository = string<br>      tag        = string<br>    }),<br>    data_storage = object({<br>      enabled = bool<br>      size    = string<br>    })<br>    ha = object({<br>      enabled = bool<br>      replicas : number<br>      raft = object({<br>        enabled = bool<br>      })<br>    }),<br>    ui = object({<br>      enabled = bool<br>    })<br>  })</pre> | n/a | yes |
+| <a name="input_vault_gcp_sa"></a> [vault\_gcp\_sa](#input\_vault\_gcp\_sa) | GCP Service account that will be used by the Vault Server. Must exist | `string` | n/a | yes |
+| <a name="input_vault_namespace"></a> [vault\_namespace](#input\_vault\_namespace) | Namespace used by Hashicorp vault | `string` | n/a | yes |
 
-- [ ] [Set up project integrations](https://gitlab.com/a8042/dataops/terraform-astrafy-vault-kms-install-on-gke/-/settings/integrations)
+## Outputs
 
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+No outputs.
+<!-- END_TF_DOCS -->
