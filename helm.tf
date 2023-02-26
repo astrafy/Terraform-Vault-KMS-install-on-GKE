@@ -17,8 +17,8 @@ resource "helm_release" "hashicorp_vault" {
       ui_enabled          = var.vault_config.ui.enabled
       gcp_project         = var.project_id_gke
       kms_location        = var.kms_location
-      key_ring            = google_kms_key_ring.vault.name
-      crypto_key          = google_kms_crypto_key.unseal.name
+      key_ring            = module.kms.keyring_resource.name
+      crypto_key          = var.unseal_key_name
     })
   ]
   namespace = var.vault_namespace
