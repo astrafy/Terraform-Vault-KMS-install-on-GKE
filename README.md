@@ -4,34 +4,32 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.2.9 |
-| <a name="requirement_google"></a> [google](#requirement\_google) | >=4.37.0,<5.0.0 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | >=4.47.0, <5.0.0 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | >=2.6.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | >=4.37.0,<5.0.0 |
 | <a name="provider_helm"></a> [helm](#provider\_helm) | >=2.6.0 |
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_kms"></a> [kms](#module\_kms) | terraform-google-modules/kms/google | 2.2.1 |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [google_kms_crypto_key.unseal](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/kms_crypto_key) | resource |
-| [google_kms_crypto_key_iam_member.auto_unseal](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/kms_crypto_key_iam_member) | resource |
-| [google_kms_key_ring.vault](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/kms_key_ring) | resource |
-| [google_project_iam_member.vault_sa_key_admin](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
 | [helm_release.hashicorp_vault](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_create_namespace"></a> [create\_namespace](#input\_create\_namespace) | Create the kubernetes namespace if it doesn't exist | `bool` | `false` | no |
 | <a name="input_helm_values_file"></a> [helm\_values\_file](#input\_helm\_values\_file) | Helm values.yaml file location | `string` | n/a | yes |
 | <a name="input_key_ring_name"></a> [key\_ring\_name](#input\_key\_ring\_name) | Name of the Keyring to create. | `string` | n/a | yes |
 | <a name="input_kms_location"></a> [kms\_location](#input\_kms\_location) | Location of the KMS key ring. | `string` | n/a | yes |
@@ -44,5 +42,7 @@ No modules.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_helm_release"></a> [helm\_release](#output\_helm\_release) | n/a |
 <!-- END_TF_DOCS -->
