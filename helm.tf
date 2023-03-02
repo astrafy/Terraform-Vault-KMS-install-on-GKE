@@ -4,6 +4,7 @@ resource "helm_release" "hashicorp_vault" {
   version           = var.vault_config.chart_version # chart version
   dependency_update = true
   repository        = "https://helm.releases.hashicorp.com"
+  create_namespace  = var.create_namespace
   values = [
     templatefile(var.helm_values_file, {
       image_repository    = var.vault_config.image.repository,

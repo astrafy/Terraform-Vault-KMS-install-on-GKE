@@ -8,6 +8,12 @@ variable "vault_namespace" {
   type        = string
 }
 
+variable "create_namespace" {
+  description = "Create the kubernetes namespace if it doesn't exist"
+  type        = bool
+  default     = false
+}
+
 variable "key_ring_name" {
   description = "Name of the Keyring to create.	"
   type        = string
