@@ -23,6 +23,8 @@ resource "kubernetes_cron_job_v1" "backup" {
         template {
           metadata {}
           spec {
+            service_account_name            = kubernetes_service_account_v1.vault_backup.metadata.name
+            automount_service_account_token = true
             volume {
               name = "share"
               empty_dir {}
