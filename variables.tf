@@ -70,3 +70,9 @@ variable "vault_gcp_sa" {
   description = "GCP Service account that will be used by the Vault Server. Must exist"
   type        = string
 }
+
+variable "vault_backup_gcs_retention_days" {
+  description = "Duration in days to keep the vault backups in GCS"
+  type        = number
+  default     = 15
+}
