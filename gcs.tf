@@ -5,7 +5,9 @@ module "gcs_buckets" {
   names             = ["vault-backups"]
   prefix            = var.project_id_gke
   set_creator_roles = true
+  set_viewer_roles  = true
   creators          = ["serviceAccount:${module.service_accounts.email}"]
+  viewers           = ["serviceAccount:${module.service_accounts.email}"]
   lifecycle_rules = [
     {
       action = {
