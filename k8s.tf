@@ -35,7 +35,7 @@ resource "kubernetes_cron_job_v1" "backup" {
               name    = "snapshot"
               image   = "vault"
               command = ["/bin/sh"]
-              args    = ["-c", "export VAULT_TOKEN=$(vault login -token-only -method=gcp role=\"backup-operator\"); vault operator raft snapshot save /share/snapshot.snap"]
+              args    = ["-c", "export VAULT_TOKEN=$(vault login -token-only -method=gcp role=\"backup-operator\"); while [ ! -f /share/snapshot.snap ]; do sleep 1 && vault operator raft snapshot save /share/snapshot.snap; done"]
               env {
                 name  = "VAULT_ADDR"
                 value = "http://vault-active.${var.vault_namespace}.svc.cluster.local:8200"
