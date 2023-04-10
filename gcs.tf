@@ -27,16 +27,3 @@ module "service_accounts" {
   project_id = var.project_id_gke
   names      = ["vault-backup"]
 }
-
-module "workload_identity" {
-  source     = "app.terraform.io/astrafy/gcp-workload-identity/astrafy"
-  version    = "0.0.1"
-  project_id = var.project_id_gke
-  gcp_k8s_identity_mapping = {
-    (kubernetes_service_account_v1.vault_backup.metadata.0.name) = {
-      gcp_sa_email = module.service_accounts.email
-      namespace    = var.vault_namespace
-    }
-  }
-  depends_on = [kubernetes_service_account_v1.vault_backup]
-}

@@ -22,7 +22,6 @@
 | <a name="module_gcs_buckets"></a> [gcs\_buckets](#module\_gcs\_buckets) | terraform-google-modules/cloud-storage/google | 3.4.1 |
 | <a name="module_kms"></a> [kms](#module\_kms) | terraform-google-modules/kms/google | 2.2.1 |
 | <a name="module_service_accounts"></a> [service\_accounts](#module\_service\_accounts) | terraform-google-modules/service-accounts/google | 4.2.0 |
-| <a name="module_workload_identity"></a> [workload\_identity](#module\_workload\_identity) | app.terraform.io/astrafy/gcp-workload-identity/astrafy | 0.0.1 |
 
 ## Resources
 
@@ -53,5 +52,6 @@
 | Name | Description |
 |------|-------------|
 | <a name="output_helm_release"></a> [helm\_release](#output\_helm\_release) | n/a |
+| <a name="output_kubernetes_service_account"></a> [kubernetes\_service\_account](#output\_kubernetes\_service\_account) | n/a |
 | <a name="output_vault_backup_gcp_sa_email"></a> [vault\_backup\_gcp\_sa\_email](#output\_vault\_backup\_gcp\_sa\_email) | n/a |
 <!-- END_TF_DOCS -->
