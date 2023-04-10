@@ -3,6 +3,9 @@ resource "kubernetes_service_account_v1" "vault_backup" {
     name      = "vault-backup"
     namespace = var.vault_namespace
   }
+  lifecycle {
+    ignore_changes = [metadata[0].annotations]
+  }
 }
 
 resource "kubernetes_cron_job_v1" "backup" {
@@ -13,7 +16,6 @@ resource "kubernetes_cron_job_v1" "backup" {
   spec {
     failed_jobs_history_limit     = 5
     schedule                      = "@every 2h"
-    timezone                      = "Etc/UTC"
     successful_jobs_history_limit = 5
     job_template {
       metadata {}
