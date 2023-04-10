@@ -23,7 +23,11 @@ resource "kubernetes_cron_job_v1" "backup" {
         backoff_limit              = 2
         ttl_seconds_after_finished = 10
         template {
-          metadata {}
+          metadata {
+            labels = {
+              "sidecar.istio.io/inject" = "false"
+            }
+          }
           spec {
             service_account_name            = kubernetes_service_account_v1.vault_backup.metadata.0.name
             automount_service_account_token = true
