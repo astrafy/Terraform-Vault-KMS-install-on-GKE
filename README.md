@@ -48,4 +48,5 @@
 |------|-------------|
 | <a name="output_kms"></a> [kms](#output\_kms) | n/a |
 | <a name="output_kubernetes_service_account"></a> [kubernetes\_service\_account](#output\_kubernetes\_service\_account) | n/a |
+| <a name="output_vault_backup_gcp_sa_email"></a> [vault\_backup\_gcp\_sa\_email](#output\_vault\_backup\_gcp\_sa\_email) | n/a |
 <!-- END_TF_DOCS -->
