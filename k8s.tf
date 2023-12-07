@@ -37,7 +37,7 @@ resource "kubernetes_cron_job_v1" "backup" {
             }
             container {
               name    = "snapshot"
-              image   = "vault"
+              image   = "hashicorp/vault"
               command = ["/bin/sh"]
               args    = ["-c", "export VAULT_TOKEN=$(vault login -token-only -method=gcp role=\"backup-operator\"); while [ ! -f /share/snapshot.snap ]; do sleep 1 && vault operator raft snapshot save /share/snapshot.snap; done"]
               env {
