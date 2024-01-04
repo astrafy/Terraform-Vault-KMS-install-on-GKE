@@ -29,6 +29,20 @@ resource "kubernetes_cron_job_v1" "backup" {
             }
           }
           spec {
+            affinity {
+              node_affinity {
+                required_during_scheduling_ignored_during_execution {
+                  node_selector_term {
+                    match_expressions {
+                      key      = "node_pool"
+                      operator = "In"
+                      values   = ["vault"]
+                    }
+                  }
+                }
+              }
+            }
+            restart_policy                  = "Never"
             service_account_name            = kubernetes_service_account_v1.vault_backup.metadata.0.name
             automount_service_account_token = true
             volume {
@@ -37,7 +51,7 @@ resource "kubernetes_cron_job_v1" "backup" {
             }
             container {
               name    = "snapshot"
-              image   = "vault"
+              image   = "hashicorp/vault"
               command = ["/bin/sh"]
               args    = ["-c", "export VAULT_TOKEN=$(vault login -token-only -method=gcp role=\"backup-operator\"); while [ ! -f /share/snapshot.snap ]; do sleep 1 && vault operator raft snapshot save /share/snapshot.snap; done"]
               env {
