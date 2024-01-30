@@ -42,6 +42,12 @@ resource "kubernetes_cron_job_v1" "backup" {
                 }
               }
             }
+            toleration {
+              key      = "scope"
+              operator = "Equal"
+              value    = "vault"
+              effect   = "NoSchedule"
+            }
             restart_policy                  = "Never"
             service_account_name            = kubernetes_service_account_v1.vault_backup.metadata.0.name
             automount_service_account_token = true
