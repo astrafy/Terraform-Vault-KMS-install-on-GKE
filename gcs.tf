@@ -1,6 +1,6 @@
 module "gcs_buckets" {
   source            = "terraform-google-modules/cloud-storage/google"
-  version           = "3.4.1"
+  version           = "5.0.0"
   project_id        = var.project_id_gke
   names             = ["vault-backups"]
   prefix            = var.project_id_gke
@@ -23,7 +23,7 @@ module "gcs_buckets" {
 
 module "service_accounts" {
   source     = "terraform-google-modules/service-accounts/google"
-  version    = "4.2.0"
+  version    = "4.2.2"
   project_id = var.project_id_gke
   names      = ["vault-backup"]
 }
