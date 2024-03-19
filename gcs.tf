@@ -3,7 +3,7 @@ module "gcs_buckets" {
   version           = "5.0.0"
   project_id        = var.project_id_gke
   names             = ["vault-backups"]
-  prefix            = var.project_id_gke
+  prefix            = "${var.project_id_gke}-${var.kms_location}"
   location          = var.kms_location
   set_creator_roles = true
   set_viewer_roles  = true
